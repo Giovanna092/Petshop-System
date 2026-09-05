@@ -46,6 +46,7 @@ public class Cliente {
 
   public void adicionaAnimal(Animal animal){
     this.animais.add(animal);
+    animal.setTutor(this);
   }
 
   public void listarAnimais(){

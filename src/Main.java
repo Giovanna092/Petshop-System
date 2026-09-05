@@ -102,14 +102,18 @@ public class Main {
             "(11) 92323-2322",
             "maria@email.com.br");
 
-    cliente2.adicionaAnimal(new Cachorro(
+    Animal cachorro2 = new Cachorro(
             "Thor",
             null,
             10f,
             "Macho",
             "Vira-lata",
-            "Médio"));
+            "Médio");
+    cliente2.adicionaAnimal(cachorro2);
 
     cliente2.listarAnimais();
+    System.out.println("Tutor do cachorro Thor: " + cachorro2.getTutor().getNome());
+    System.out.println("Cachorro de Maria: " + cliente2.getAnimais());
+
   }
 }
