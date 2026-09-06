@@ -12,6 +12,7 @@ public class Atendimento {
   private Servico servico;
   private boolean hidratacao;
   private boolean corteUnha;
+  private String status;
 
   public Atendimento(LocalDateTime dataHora, BigDecimal valorCobrado, String observacao, Animal animal, Servico servico, boolean hidratacao, boolean corteUnha) {
     this.dataHora = dataHora;
@@ -51,6 +52,10 @@ public class Atendimento {
     return corteUnha;
   }
 
+  public String getStatus() {
+    return status;
+  }
+
   public void setDataHora(LocalDateTime dataHora) {
     this.dataHora = dataHora;
   }
@@ -79,7 +84,18 @@ public class Atendimento {
     this.corteUnha = corteUnha;
   }
 
-  public void realizarAtendimento(){
-    System.out.println("Realizando atendimento...");
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public void iniciar(){
+    if(!status.equalsIgnoreCase("AGENDADO")){
+      System.out.println("Erro. É necessário o atendimento estar agendado para iniciar o atendimento.");
+    } else{
+      System.out.println("Iniciando atendimento...");
+
+      this.setStatus("EM_PROGRESSO");
+      System.out.println("Status alterado para EM_PROGRESSO");
+    }
   }
 }
