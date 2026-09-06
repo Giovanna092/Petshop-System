@@ -98,4 +98,24 @@ public class Atendimento {
       System.out.println("Status alterado para EM_ANDAMENTO");
     }
   }
+
+  public void concluir(){
+    if(status != Status.EM_ANDAMENTO){
+      System.out.println("Erro. O Atendimento precisa estar em andamento para ser finalizado.");
+    }
+    else{
+      status = Status.CONCLUIDO;
+      System.out.println("Atendimento finalizado.");
+    }
+  }
+
+  public void cancelar(){
+    if(status != Status.AGENDADO){
+      System.out.println("Erro. O atendimento precisa estar agendado para ser cancelado.");
+    }
+    else{
+      status = Status.CANCELADO;
+      System.out.println("Atendimento cancelado.");
+    }
+  }
 }
