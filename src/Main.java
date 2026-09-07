@@ -4,7 +4,6 @@ import service.AgendamentoService;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Main {
   public static void main(String[] args) {
@@ -124,12 +123,12 @@ public class Main {
 
   private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico) {
     //cliente quer marcar banho pra seu cachorro
-    Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", false, false);
+    Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", true, true);
 
     if (agendar == null){
       return;
     }
-    System.out.println("Serviço status: " + agendar.getStatus());
+    System.out.println("Serviço " + agendar.getStatus() + " Total a pagar = " + agendar.getValorCobrado());
 
     agendar.iniciar();
     agendar.concluir();

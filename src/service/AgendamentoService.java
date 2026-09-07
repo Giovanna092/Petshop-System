@@ -42,19 +42,18 @@ public class AgendamentoService {
     LocalDateTime dataAtual = LocalDateTime.now();
 
     BigDecimal valorServico = servico.getValor();
-    float adicionais = 0;
+    BigDecimal adicionais = BigDecimal.ZERO;
 
     if(hidratacao){
-      adicionais += 10;
+      adicionais = adicionais.add(BigDecimal.TEN);
       //petshop.getPrecoHidratacao();
     }
     if(corteUnha){
-      adicionais += 5;
+      adicionais = adicionais.add(BigDecimal.ONE);
       //petshop.getPrecoCorteUnha();
     }
 
-    float valorSoma = adicionais + valorServico.floatValue();
-    BigDecimal total = BigDecimal.valueOf(valorSoma);
+    BigDecimal total = valorServico.add(adicionais);
 
     return new Atendimento(dataAtual, total, observacao, animal, servico, hidratacao, corteUnha);
   }
