@@ -52,4 +52,13 @@ public class Cliente {
   public void listarAnimais(){
     animais.forEach(System.out::println);
   }
+
+  public boolean possuiAnimal(Animal animal) {
+    for (Animal a : animais){
+      if(a.equals(animal)){
+        return true;
+      }
+    }
+    return false;
+  }
 }

@@ -51,4 +51,15 @@ public class Petshop {
   public void listarServicos(){
     servicos.forEach(System.out::println);
   }
+
+  public boolean possuiServico(Servico servico) {
+    for (Servico value : servicos) {
+      if (value.equals(servico)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
 }

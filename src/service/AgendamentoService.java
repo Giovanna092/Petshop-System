@@ -4,38 +4,16 @@ import model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class AgendamentoService {
   public static Atendimento agendar(Cliente cliente, Animal animal, Petshop petshop, Servico servico, String observacao, boolean corteUnha, boolean hidratacao){
-
-    List<Animal> animais = cliente.getAnimais();
-    boolean animalPertenceATutor = false;
-
-    for (Animal a : animais){
-      if(a.equals(animal)){
-        animalPertenceATutor = true;
-        break;
-      }
-    }
-
-    if (!animalPertenceATutor){
+    if(!cliente.possuiAnimal(animal)){
       System.out.println("Erro. O animal não pertence ao tutor.");
       return null;
     }
 
-    List<Servico> servicos = petshop.getServicos();
-    boolean servicoDisponivelNoPetshop = false;
-
-    for (Servico value : servicos) {
-      if (value.equals(servico)) {
-        servicoDisponivelNoPetshop = true;
-        break;
-      }
-    }
-
-    if (!servicoDisponivelNoPetshop){
-      System.out.println("Não encontramos petshop com o servico selecionado disponivel");
+    if (!petshop.possuiServico(servico)){
+      System.out.println("O petshop não tem o serviço escolhido disponível.");
       return null;
     }
 
@@ -55,6 +33,6 @@ public class AgendamentoService {
 
     BigDecimal total = valorServico.add(adicionais);
 
-    return new Atendimento(dataAtual, total, observacao, animal, servico, hidratacao, corteUnha);
+    return new Atendimento(dataAtual, total, observacao, animal, servico, hidratacao, corteUnha, petshop);
   }
 }
