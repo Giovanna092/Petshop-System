@@ -4,9 +4,11 @@ import model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AgendamentoService {
-  public static Atendimento agendar(Cliente cliente, Animal animal, Petshop petshop, Servico servico, String observacao, boolean corteUnha, boolean hidratacao){
+  public static Atendimento agendar(Cliente cliente, Animal animal, Petshop petshop, Servico servico, String observacao, List<Adicional> adicionais){
     if(!cliente.possuiAnimal(animal)){
       System.out.println("Erro. O animal não pertence ao tutor.");
       return null;
@@ -20,19 +22,18 @@ public class AgendamentoService {
     LocalDateTime dataAtual = LocalDateTime.now();
 
     BigDecimal valorServico = servico.getValor();
-    BigDecimal adicionais = BigDecimal.ZERO;
+    BigDecimal adicionaisValor = BigDecimal.ZERO;
 
-    if(hidratacao){
-      adicionais = adicionais.add(BigDecimal.TEN);
-      //petshop.getPrecoHidratacao();
+    for (int i = 0; i < adicionais.size(); i++) {
+      Adicional adicional = adicionais.get(i);
+      if (petshop.possuiAdicional(adicional, servico)){
+        BigDecimal valorAdic = petshop.obterValorAdicionais(adicional, servico);
+        adicionaisValor = adicionaisValor.add(valorAdic);
+      }
     }
-    if(corteUnha){
-      adicionais = adicionais.add(BigDecimal.ONE);
-      //petshop.getPrecoCorteUnha();
-    }
 
-    BigDecimal total = valorServico.add(adicionais);
+    BigDecimal total = valorServico.add(adicionaisValor);
 
-    return new Atendimento(dataAtual, total, observacao, animal, servico, hidratacao, corteUnha, petshop);
+    return new Atendimento(dataAtual, total, observacao, animal, servico, adicionais, petshop);
   }
 }

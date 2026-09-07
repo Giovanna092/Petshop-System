@@ -1,7 +1,9 @@
 package model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Petshop {
   private int id;
@@ -61,5 +63,25 @@ public class Petshop {
     return false;
   }
 
+  public boolean possuiAdicional(Adicional adicional, Servico servico){
+    if(servico instanceof Banho){
+      Map<Adicional, BigDecimal> adicionaisPetshop = ((Banho) servico).getAdicionais();
+      if(adicionaisPetshop.isEmpty()){
+        System.out.println("Petshop não possui adicionais");
+      } else{
+        if(adicionaisPetshop.containsKey(adicional)){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
+
+  public BigDecimal obterValorAdicionais(Adicional adicional, Servico servico) {
+    if(servico instanceof Banho banho){
+      return banho.getAdicionais().get(adicional);
+    }
+    return BigDecimal.ZERO;
+  }
 }

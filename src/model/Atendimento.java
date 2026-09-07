@@ -2,6 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Atendimento {
   private int id;
@@ -10,18 +11,18 @@ public class Atendimento {
   private String observacao;
   private Animal animal;
   private Servico servico;
-  private boolean hidratacao;
-  private boolean corteUnha;
+  private List<Adicional> adicionals;
   private Status status;
+  private Petshop petshop;
 
-  public Atendimento(LocalDateTime dataHora, BigDecimal valorCobrado, String observacao, Animal animal, Servico servico, boolean hidratacao, boolean corteUnha) {
+  public Atendimento(LocalDateTime dataHora, BigDecimal valorCobrado, String observacao, Animal animal, Servico servico, List<Adicional> adicionals, Petshop petshop) {
     this.dataHora = dataHora;
     this.valorCobrado = valorCobrado;
     this.observacao = observacao;
     this.animal = animal;
     this.servico = servico;
-    this.hidratacao = hidratacao;
-    this.corteUnha = corteUnha;
+    this.adicionals = adicionals;
+    this.petshop = petshop;
     this.status = Status.AGENDADO;
   }
 
@@ -45,16 +46,16 @@ public class Atendimento {
     return servico;
   }
 
-  public boolean isHidratacao() {
-    return hidratacao;
-  }
-
-  public boolean isCorteUnha() {
-    return corteUnha;
-  }
-
   public Status getStatus() {
     return status;
+  }
+
+  public Petshop getPetshop() {
+    return petshop;
+  }
+
+  public List<Adicional> getAdicionals() {
+    return adicionals;
   }
 
   public void setDataHora(LocalDateTime dataHora) {
@@ -67,22 +68,6 @@ public class Atendimento {
 
   public void setObservacao(String observacao) {
     this.observacao = observacao;
-  }
-
-  public void setAnimal(Animal animal) {
-    this.animal = animal;
-  }
-
-  public void setServico(Servico servico) {
-    this.servico = servico;
-  }
-
-  public void setHidratacao(boolean hidratacao) {
-    this.hidratacao = hidratacao;
-  }
-
-  public void setCorteUnha(boolean corteUnha) {
-    this.corteUnha = corteUnha;
   }
 
   public void iniciar(){

@@ -4,6 +4,10 @@ import service.AgendamentoService;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Main {
   public static void main(String[] args) {
@@ -29,15 +33,22 @@ public class Main {
       "R. Armandinho Soares, 123",
       "(11) 9 5231-2123");
 
+    Map<Adicional, BigDecimal> adicionaisBanhoCao = new HashMap<>();
+    adicionaisBanhoCao.put(Adicional.HIDRATACAO, BigDecimal.TEN);
+    adicionaisBanhoCao.put(Adicional.CORTE_DE_UNHA, BigDecimal.ONE);
+    adicionaisBanhoCao.put(Adicional.LIMPEZA_OUVIDO, BigDecimal.ONE);
+
     Servico banhoCao = new Banho("Banho padrão Cachorro",
             Duration.ofMinutes(15),
             new BigDecimal("25.90"),
-            "Banho comum para cães.");
+            "Banho comum para cães.",
+            adicionaisBanhoCao);
 
     Servico banhoGato = new Banho("Banho padrão Gato",
             Duration.ofMinutes(15),
             new BigDecimal("20.90"),
-            "Banho comum para gatos.");
+            "Banho comum para gatos.",
+            adicionaisBanhoCao);
 
     Servico tosaTesoura = new Tosa(
             "Tosa tesoura completa",
@@ -109,21 +120,21 @@ public class Main {
 
     //testando a historia
     System.out.println("------ INICIO HISTORIA 1 ------");
-    historia(cliente, cachorro, petshop1, banhoCao);
+    historia(cliente, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO, Adicional.LIMPEZA_OUVIDO));
     System.out.println("------ FIM HISTORIA 1 ------");
 
     System.out.println("------ INICIO HISTORIA 2 ------");
-    historia(giovanna, cachorro, petshop1, banhoCao);
+    historia(giovanna, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO, Adicional.LIMPEZA_OUVIDO, Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
     System.out.println("------ FIM HISTORIA 2 ------");
 
     System.out.println("------ INICIO HISTORIA 2 ------");
-    historia(cliente, cachorro, petshop2, banhoCao);
+    historia(cliente, cachorro, petshop2, banhoCao, List.of(Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
     System.out.println("------ FIM HISTORIA 2 ------");
   }
 
-  private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico) {
+  private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico, List<Adicional> adicionais) {
     //cliente quer marcar banho pra seu cachorro
-    Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", true, true);
+    Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", adicionais);
 
     if (agendar == null){
       return;
