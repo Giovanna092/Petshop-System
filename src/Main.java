@@ -1,4 +1,5 @@
 import model.*;
+import service.AgendamentoService;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 public class Main {
   public static void main(String[] args) {
 
+    //criação de entidades
     Animal cachorro = new Cachorro(
             "Rex",
             LocalDate.of(2025, 10, 6),
@@ -64,38 +66,18 @@ public class Main {
             "(11) 92364-2361",
             "giovanna@email.com.br");
 
-    Atendimento atendimento1 = new Atendimento(
-            LocalDateTime.now(),
-            new BigDecimal("35.90"),
-            "",
-            cachorro,
-            banhoCao,
-            true,
-            true);
-
-    petshop1.adicionaServico(banhoCao);
-    petshop1.adicionaServico(banhoGato);
-    petshop1.adicionaServico(tosaTesoura);
-    petshop1.adicionaServico(tosaHigienica);
-    petshop1.adicionaServico(tosaMaquina);
-
-    giovanna.adicionaAnimal(new Cachorro(
+    Animal cachorro3 = new Cachorro(
             "Bella",
             LocalDate.of(2018,4,29),
             3.5f,
             "Fêmea",
             "Yorkshire",
-            "Pequeno"));
-
-    giovanna.listarAnimais();
+            "Pequeno");
 
     Cliente cliente = new Cliente(
             "João",
             "(11) 92323-2323",
             "joao@email.com.br");
-
-    cliente.adicionaAnimal(cachorro);
-    cliente.listarAnimais();
 
     Cliente cliente2 = new Cliente(
             "Maria",
@@ -109,11 +91,48 @@ public class Main {
             "Macho",
             "Vira-lata",
             "Médio");
-    cliente2.adicionaAnimal(cachorro2);
 
-    cliente2.listarAnimais();
-    System.out.println("Tutor do cachorro Thor: " + cachorro2.getTutor().getNome());
-    System.out.println("Cachorro de Maria: " + cliente2.getAnimais());
+    Petshop petshop2 = new Petshop(
+            "PetShop Vila Sol",
+            "R. Vila Sol, 231 ",
+            "(11) 98765-9876");
+
+    //definindo relações
+    petshop1.adicionaServico(banhoCao);
+    petshop1.adicionaServico(banhoGato);
+    petshop1.adicionaServico(tosaTesoura);
+    petshop1.adicionaServico(tosaHigienica);
+    petshop1.adicionaServico(tosaMaquina);
+
+    cliente.adicionaAnimal(cachorro);
+    cliente2.adicionaAnimal(cachorro2);
+    giovanna.adicionaAnimal(cachorro3);
+
+    //testando a historia
+    System.out.println("------ INICIO HISTORIA 1 ------");
+    historia(cliente, cachorro, petshop1, banhoCao);
+    System.out.println("------ FIM HISTORIA 1 ------");
+
+    System.out.println("------ INICIO HISTORIA 2 ------");
+    historia(giovanna, cachorro, petshop1, banhoCao);
+    System.out.println("------ FIM HISTORIA 2 ------");
+
+    System.out.println("------ INICIO HISTORIA 2 ------");
+    historia(cliente, cachorro, petshop2, banhoCao);
+    System.out.println("------ FIM HISTORIA 2 ------");
+  }
+
+  private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico) {
+    //cliente quer marcar banho pra seu cachorro
+    Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", false, false);
+
+    if (agendar == null){
+      return;
+    }
+    System.out.println("Serviço status: " + agendar.getStatus());
+
+    agendar.iniciar();
+    agendar.concluir();
 
   }
 }

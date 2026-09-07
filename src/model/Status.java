@@ -1,8 +1,8 @@
 package model;
 
 public enum Status {
-  EM_ANDAMENTO,
   AGENDADO,
+  EM_ANDAMENTO,
   CONCLUIDO,
   CANCELADO
 }

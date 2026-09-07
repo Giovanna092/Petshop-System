@@ -22,6 +22,7 @@ public class Atendimento {
     this.servico = servico;
     this.hidratacao = hidratacao;
     this.corteUnha = corteUnha;
+    this.status = Status.AGENDADO;
   }
 
   public LocalDateTime getDataHora() {
@@ -84,17 +85,13 @@ public class Atendimento {
     this.corteUnha = corteUnha;
   }
 
-  public void setStatus(Status status) {
-    this.status = status;
-  }
-
   public void iniciar(){
     if(status != Status.AGENDADO){
       System.out.println("Erro. É necessário o atendimento estar agendado para iniciar o atendimento.");
     } else{
       System.out.println("Iniciando atendimento...");
 
-      this.setStatus(Status.EM_ANDAMENTO);
+      status = Status.EM_ANDAMENTO;
       System.out.println("Status alterado para EM_ANDAMENTO");
     }
   }
