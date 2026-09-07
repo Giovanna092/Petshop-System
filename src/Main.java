@@ -44,6 +44,12 @@ public class Main {
             "Banho comum para cães.",
             adicionaisBanhoCao);
 
+    Servico banhoCao2 = new Banho("Banho padrão Cachorro",
+            Duration.ofMinutes(15),
+            new BigDecimal("20.90"),
+            "Banho comum para cães.",
+            adicionaisBanhoCao);
+
     Servico banhoGato = new Banho("Banho padrão Gato",
             Duration.ofMinutes(15),
             new BigDecimal("20.90"),
@@ -107,12 +113,19 @@ public class Main {
             "R. Vila Sol, 231 ",
             "(11) 98765-9876");
 
+    Petshop petshop3 = new Petshop(
+            "PetShop aumigos",
+            "R. Pinheiros, 432 ",
+            "(11) 98755-9875");
+
     //definindo relações
     petshop1.adicionaServico(banhoCao);
     petshop1.adicionaServico(banhoGato);
     petshop1.adicionaServico(tosaTesoura);
     petshop1.adicionaServico(tosaHigienica);
     petshop1.adicionaServico(tosaMaquina);
+
+    petshop3.adicionaServico(banhoCao2);
 
     cliente.adicionaAnimal(cachorro);
     cliente2.adicionaAnimal(cachorro2);
@@ -130,6 +143,10 @@ public class Main {
     System.out.println("------ INICIO HISTORIA 2 ------");
     historia(cliente, cachorro, petshop2, banhoCao, List.of(Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
     System.out.println("------ FIM HISTORIA 2 ------");
+
+    System.out.println("------ INICIO HISTORIA 3 ------");
+    historia(cliente, cachorro, petshop3, banhoCao, List.of(Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
+    System.out.println("------ FIM HISTORIA 3 ------");
   }
 
   private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico, List<Adicional> adicionais) {
