@@ -77,6 +77,8 @@ public class Main {
             "Tosa higiênica para cães.",
             "Higiênica");
 
+    Servico consultaVeterinaria = null;
+
     Cliente giovanna = new Cliente(
             "Giovanna",
             "(11) 92364-2361",
@@ -132,20 +134,20 @@ public class Main {
     giovanna.adicionaAnimal(cachorro3);
 
     //testando a historia
-    System.out.println("------ INICIO HISTORIA 1 ------");
-    historia(cliente, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO, Adicional.LIMPEZA_OUVIDO));
+    System.out.println("------ INICIO BANHO + HIDRATACAO ------");
+    historia(cliente, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO));
     System.out.println("------ FIM HISTORIA 1 ------");
 
-    System.out.println("------ INICIO HISTORIA 2 ------");
-    historia(giovanna, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO, Adicional.LIMPEZA_OUVIDO, Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
+    System.out.println("------ INICIO BANHO + C0RTE DE UNHA ------");
+    historia(giovanna, cachorro3, petshop1, banhoCao, List.of(Adicional.CORTE_DE_UNHA));
     System.out.println("------ FIM HISTORIA 2 ------");
 
-    System.out.println("------ INICIO HISTORIA 2 ------");
-    historia(cliente, cachorro, petshop2, banhoCao, List.of(Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
+    System.out.println("------ INICIO TOSA + HIDRATACAO ------");
+    historia(cliente, cachorro, petshop1, tosaHigienica, List.of(Adicional.HIDRATACAO));
     System.out.println("------ FIM HISTORIA 2 ------");
 
-    System.out.println("------ INICIO HISTORIA 3 ------");
-    historia(cliente, cachorro, petshop3, banhoCao, List.of(Adicional.ANTI_VERME, Adicional.CORTE_DE_UNHA));
+    System.out.println("------ INICIO CONSULTA VETERINARIA ------");
+    historia(cliente, cachorro, petshop1, consultaVeterinaria, null);
     System.out.println("------ FIM HISTORIA 3 ------");
   }
 
