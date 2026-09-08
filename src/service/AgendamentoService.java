@@ -24,12 +24,21 @@ public class AgendamentoService {
     BigDecimal valorServico = servico.getValor();
     BigDecimal adicionaisValor = BigDecimal.ZERO;
 
-    for (int i = 0; i < adicionais.size(); i++) {
-      Adicional adicional = adicionais.get(i);
-      if (petshop.possuiAdicional(adicional, servico)){
-        BigDecimal valorAdic = petshop.obterValorAdicionais(adicional, servico);
-        adicionaisValor = adicionaisValor.add(valorAdic);
+    if(servico instanceof ServicoComAdicionais servicoComAdicionais){
+      if (servicoComAdicionais.getAdicionais().isEmpty()) {
+        System.out.println("Não existem adicionais nesse serviço desse petshop. " + petshop.getNome());
+      } else {
+        for (Adicional adicional : adicionais) {
+          if (servicoComAdicionais.possuiAdicional(adicional, servicoComAdicionais)) {
+            BigDecimal valorAdic = servicoComAdicionais.obterValorAdicionais(adicional);
+            adicionaisValor = adicionaisValor.add(valorAdic);
+          } else{
+            System.out.println("O adicional " + adicional + " não está disponivel nesse petshop. " + petshop.getNome());
+          }
+        }
       }
+    } else{
+      System.out.println("Não existe adicionais para esse tipo de serviço.");
     }
 
     BigDecimal total = valorServico.add(adicionaisValor);

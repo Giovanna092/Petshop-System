@@ -38,6 +38,8 @@ public class Main {
     adicionaisBanhoCao.put(Adicional.CORTE_DE_UNHA, BigDecimal.ONE);
     adicionaisBanhoCao.put(Adicional.LIMPEZA_OUVIDO, BigDecimal.ONE);
 
+    Map<Adicional, BigDecimal> adicionaisVazio = new HashMap<>();
+
     Servico banhoCao = new Banho("Banho padrão Cachorro",
             Duration.ofMinutes(15),
             new BigDecimal("25.90"),
@@ -48,7 +50,7 @@ public class Main {
             Duration.ofMinutes(15),
             new BigDecimal("20.90"),
             "Banho comum para cães.",
-            adicionaisBanhoCao);
+            adicionaisVazio);
 
     Servico banhoGato = new Banho("Banho padrão Gato",
             Duration.ofMinutes(15),
@@ -61,6 +63,7 @@ public class Main {
             Duration.ofHours(1L),
             new BigDecimal("65.90"),
             "Tosa tesoura para cães.",
+            adicionaisBanhoCao,
             "Tesoura");
 
     Servico tosaMaquina = new Tosa(
@@ -68,6 +71,7 @@ public class Main {
             Duration.ofMinutes(40),
             new BigDecimal("39.90"),
             "Tosa máquina para cães.",
+            adicionaisBanhoCao,
             "Máquina");
 
     Servico tosaHigienica = new Tosa(
@@ -75,6 +79,7 @@ public class Main {
             Duration.ofMinutes(20),
             new BigDecimal("49.90"),
             "Tosa higiênica para cães.",
+            adicionaisBanhoCao,
             "Higiênica");
 
     Servico consultaVeterinaria = null;
@@ -134,20 +139,20 @@ public class Main {
     giovanna.adicionaAnimal(cachorro3);
 
     //testando a historia
-    System.out.println("------ INICIO BANHO + HIDRATACAO ------");
+    System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP POSSUI ------");
     historia(cliente, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO));
     System.out.println("------ FIM HISTORIA 1 ------");
 
-    System.out.println("------ INICIO BANHO + C0RTE DE UNHA ------");
-    historia(giovanna, cachorro3, petshop1, banhoCao, List.of(Adicional.CORTE_DE_UNHA));
+    System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP NÃO POSSUI ESSE ADICIONAL ------");
+    historia(giovanna, cachorro3, petshop1, banhoCao, List.of(Adicional.ANTI_VERME));
     System.out.println("------ FIM HISTORIA 2 ------");
 
-    System.out.println("------ INICIO TOSA + HIDRATACAO ------");
-    historia(cliente, cachorro, petshop1, tosaHigienica, List.of(Adicional.HIDRATACAO));
+    System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP NÃO POSSUI NENHUM ADICIONAL ------");
+    historia(cliente, cachorro, petshop3, banhoCao2, List.of(Adicional.HIDRATACAO));
     System.out.println("------ FIM HISTORIA 2 ------");
 
-    System.out.println("------ INICIO CONSULTA VETERINARIA ------");
-    historia(cliente, cachorro, petshop1, consultaVeterinaria, null);
+    System.out.println("------ INICIO BANHO SEM ADICIONAL ------");
+    historia(cliente, cachorro, petshop1, banhoCao, List.of());
     System.out.println("------ FIM HISTORIA 3 ------");
   }
 

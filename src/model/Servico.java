@@ -3,7 +3,7 @@ package model;
 import java.math.BigDecimal;
 import java.time.Duration;
 
-public class Servico {
+public abstract class Servico {
   private int id;
   private String nome;
   private Duration duracao;
