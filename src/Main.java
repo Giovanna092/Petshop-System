@@ -139,25 +139,41 @@ public class Main {
         giovanna.adicionaAnimal(cachorro3);
 
         //testando a historia
-        System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP POSSUI ------");
-        historia(cliente, cachorro, petshop1, banhoCao, List.of(Adicional.HIDRATACAO));
+        System.out.println("------ AGENDAMENTO SIMPLES ------");
+        historia(cliente, cachorro, petshop1, banhoCao, null);
         System.out.println("------ FIM HISTORIA 1 ------");
 
-        System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP NÃO POSSUI ESSE ADICIONAL ------");
-        historia(giovanna, cachorro3, petshop1, banhoCao, List.of(Adicional.ANTI_VERME));
+        System.out.println("------ AGENDAMENTO COM ADICIONAIS ------");
+        historia(giovanna, cachorro3, petshop1, banhoCao, List.of(Adicional.HIDRATACAO, Adicional.CORTE_DE_UNHA));
         System.out.println("------ FIM HISTORIA 2 ------");
 
-        System.out.println("------ INICIO BANHO COM ADICIONAL E PETSHOP NÃO POSSUI NENHUM ADICIONAL ------");
-        historia(cliente, cachorro, petshop3, banhoCao2, List.of(Adicional.HIDRATACAO));
-        System.out.println("------ FIM HISTORIA 2 ------");
-
-        System.out.println("------ INICIO BANHO SEM ADICIONAL ------");
-        historia(cliente, cachorro, petshop1, banhoCao, List.of());
+        System.out.println("------ ADICIONAL NÃO OFERECIDO ------");
+        historia(cliente, cachorro, petshop1, banhoCao2, List.of(Adicional.ANTI_VERME));
         System.out.println("------ FIM HISTORIA 3 ------");
+
+        System.out.println("------ ANIMAL NÃO PERTENCE AO CLIENTE ------");
+        historia(cliente, cachorro2, petshop1, banhoCao, List.of());
+        System.out.println("------ FIM HISTORIA 4 ------");
+
+        System.out.println("------ SERVIÇO NÃO OFERECIDO PELO PETSHOP ------");
+        historia(cliente, cachorro, petshop3, banhoCao, List.of(Adicional.HIDRATACAO));
+        System.out.println("------ FIM HISTORIA 5 ------");
+
+        System.out.println("------ CANCELAMENTO ------");
+        historia(cliente2, cachorro2, petshop3, banhoCao2, List.of());
+        System.out.println("------ FIM HISTORIA 6 ------");
+
+        System.out.println("------ TOSA ------");
+        historia(cliente, cachorro, petshop1, tosaHigienica, List.of());
+        System.out.println("------ FIM HISTORIA 7 ------");
     }
 
     private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico, List<Adicional> adicionais) {
         //cliente quer marcar banho pra seu cachorro
+
+      if(adicionais == null){
+        adicionais = List.of();
+      }
         Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", adicionais);
 
         if (agendar == null) {
@@ -165,8 +181,23 @@ public class Main {
         }
         System.out.println("Serviço " + agendar.getStatus() + " Total a pagar = " + agendar.getValorCobrado());
 
-        agendar.iniciar();
-        agendar.concluir();
+        if(cliente.getNome().equalsIgnoreCase("Maria")){
+            acaoAgendar(agendar, "cancelar");
+        } else {
+            acaoAgendar(agendar, "iniciar");
+        }
 
+    }
+
+    public static void acaoAgendar(Atendimento atendimento, String acao){
+        if(acao.equalsIgnoreCase("cancelar")){
+            atendimento.cancelar();
+        } else {
+            atendimento.iniciar();
+        }
+
+        if(atendimento.getStatus().equals(Status.EM_ANDAMENTO)){
+            atendimento.concluir();
+        }
     }
 }
