@@ -4,7 +4,6 @@ import model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AgendamentoService {
@@ -26,14 +25,14 @@ public class AgendamentoService {
 
         if (servico instanceof ServicoComAdicionais servicoComAdicionais) {
             if (servicoComAdicionais.getAdicionais().isEmpty()) {
-                System.out.println("Não existem adicionais nesse serviço desse petshop. " + petshop.getNome());
+                throw new RuntimeException("Esse serviço não possui adicionais.");
             } else {
                 for (Adicional adicional : adicionais) {
                     if (servicoComAdicionais.possuiAdicional(adicional)) {
                         BigDecimal valorAdic = servicoComAdicionais.obterValorAdicionais(adicional);
                         adicionaisValor = adicionaisValor.add(valorAdic);
                     } else {
-                        System.out.println("O adicional " + adicional + " não está disponivel nesse petshop. " + petshop.getNome());
+                        throw new RuntimeException("O adicional " + adicional + " não está disponivel no " + petshop.getNome());
                     }
                 }
             }

@@ -4,7 +4,6 @@ import service.AgendamentoService;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +147,8 @@ public class Main {
         System.out.println("------ FIM HISTORIA 2 ------");
 
         System.out.println("------ ADICIONAL NÃO OFERECIDO ------");
-        historia(cliente, cachorro, petshop1, banhoCao2, List.of(Adicional.ANTI_VERME));
+        adicionaisVazio.put(Adicional.HIDRATACAO, new BigDecimal("15"));
+        historia(cliente, cachorro, petshop3, banhoCao2, List.of(Adicional.ANTI_VERME));
         System.out.println("------ FIM HISTORIA 3 ------");
 
         System.out.println("------ ANIMAL NÃO PERTENCE AO CLIENTE ------");
@@ -171,32 +171,39 @@ public class Main {
     private static void historia(Cliente cliente, Animal animal, Petshop petshop, Servico servico, List<Adicional> adicionais) {
         //cliente quer marcar banho pra seu cachorro
 
-      if(adicionais == null){
-        adicionais = List.of();
-      }
-        Atendimento agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", adicionais);
+        if (adicionais == null) {
+            adicionais = List.of();
+        }
 
-        if (agendar == null) {
+        Atendimento agendar;
+
+        try {
+            agendar = AgendamentoService.agendar(cliente, animal, petshop, servico, "Não tocar no rabo, pois ele morde", adicionais);
+        } catch (RuntimeException e) {
+            System.err.println("Não foi possível agendar: " + e.getMessage());
             return;
         }
-        System.out.println("Serviço " + agendar.getStatus() + " Total a pagar = " + agendar.getValorCobrado());
 
-        if(cliente.getNome().equalsIgnoreCase("Maria")){
-            acaoAgendar(agendar, "cancelar");
-        } else {
-            acaoAgendar(agendar, "iniciar");
+        if(agendar == null){
+            System.err.println("O agendamento não foi concluido, tente novamente.");
+            return;
         }
 
+        System.out.println("Serviço " + agendar.getStatus() + " Total a pagar = " + agendar.getValorCobrado());
+
+        if (cliente.getNome().equalsIgnoreCase("Maria")) acaoAgendar(agendar, "cancelar");
+
+         else acaoAgendar(agendar, "iniciar");
     }
 
-    public static void acaoAgendar(Atendimento atendimento, String acao){
-        if(acao.equalsIgnoreCase("cancelar")){
+    public static void acaoAgendar(Atendimento atendimento, String acao) {
+        if (acao.equalsIgnoreCase("cancelar")) {
             atendimento.cancelar();
         } else {
             atendimento.iniciar();
         }
 
-        if(atendimento.getStatus().equals(Status.EM_ANDAMENTO)){
+        if (atendimento.getStatus().equals(Status.EM_ANDAMENTO)) {
             atendimento.concluir();
         }
     }
