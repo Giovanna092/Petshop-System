@@ -1,5 +1,6 @@
 package service;
 
+import exceptions.AdicionalNaoDisponivelException;
 import model.*;
 
 import java.math.BigDecimal;
@@ -25,14 +26,14 @@ public class AgendamentoService {
 
         if (servico instanceof ServicoComAdicionais servicoComAdicionais) {
             if (servicoComAdicionais.getAdicionais().isEmpty()) {
-                throw new RuntimeException("Esse serviço não possui adicionais.");
+                throw new AdicionalNaoDisponivelException("Esse serviço não possui adicionais.");
             } else {
                 for (Adicional adicional : adicionais) {
                     if (servicoComAdicionais.possuiAdicional(adicional)) {
                         BigDecimal valorAdic = servicoComAdicionais.obterValorAdicionais(adicional);
                         adicionaisValor = adicionaisValor.add(valorAdic);
                     } else {
-                        throw new RuntimeException("O adicional " + adicional + " não está disponivel no " + petshop.getNome());
+                        throw new AdicionalNaoDisponivelException("O adicional " + adicional + " não está disponivel no " + petshop.getNome());
                     }
                 }
             }
