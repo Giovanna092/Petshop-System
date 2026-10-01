@@ -191,9 +191,7 @@ public class Main {
 
         System.out.println("Serviço " + agendar.getStatus() + " Total a pagar = " + agendar.getValorCobrado());
 
-        if (cliente.getNome().equalsIgnoreCase("Maria")) acaoAgendar(agendar, "cancelar");
-
-         else acaoAgendar(agendar, "iniciar");
+        acaoAgendar(agendar, "iniciar");
     }
 
     public static void acaoAgendar(Atendimento atendimento, String acao) {
