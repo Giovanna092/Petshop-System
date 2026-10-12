@@ -1,14 +1,23 @@
 package service;
 
 import exceptions.AdicionalNaoDisponivelException;
+import exceptions.AnimalJaPossuiAtendimentoException;
 import model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AgendamentoService {
+
+    public static List<Atendimento> atendimentos = new ArrayList<>();
+
     public static Atendimento agendar(Cliente cliente, Animal animal, Petshop petshop, Servico servico, String observacao, List<Adicional> adicionais) {
+        if(animalPossuiAtendimentoAtivo(animal)){
+            throw new AnimalJaPossuiAtendimentoException("Esse animal já possui um agendamento ativo.");
+        }
+
         if (!cliente.possuiAnimal(animal)) {
             System.out.println("Erro. O animal não pertence ao tutor.");
             return null;
@@ -44,6 +53,21 @@ public class AgendamentoService {
 
         BigDecimal total = valorServico.add(adicionaisValor);
 
-        return new Atendimento(dataAtual, total, observacao, animal, servico, adicionais, petshop);
+        Atendimento atendimento = new Atendimento(dataAtual, total, observacao, animal, servico, adicionais, petshop);
+
+        //salva em memtoria uma lista com todos os atendimentos criados
+        AgendamentoService.atendimentos.add(atendimento);
+
+        return atendimento;
+    }
+
+    private static boolean animalPossuiAtendimentoAtivo(Animal animal){
+        for (Atendimento atendimento : atendimentos) {
+            if ((atendimento.getStatus().equals(Status.EM_ANDAMENTO) || atendimento.getStatus().equals(Status.AGENDADO))
+                    && atendimento.getAnimal().equals(animal)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
